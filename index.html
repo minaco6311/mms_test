@@ -39,20 +39,7 @@
             transform: rotateY(180deg);
         }
 
-        /* カード表面の光沢アニメーション */
-        .card__face--front::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -80%;
-            width: 50%;
-            height: 100%;
-            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.2) 50%, rgba(255, 255, 255, 0) 100%);
-            transform: skewX(-25deg);
-            animation: shine 5s infinite;
-        }
-        
-        /* 枠線用のスタイル */
+        /* 枠線用のスタイルは蛍光ピンクで維持 */
         .card__face--front::after {
             content: '';
             position: absolute;
@@ -60,53 +47,106 @@
             left: 1rem;
             right: 1rem;
             bottom: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            /* 蛍光ピンクの枠線（#FF00FF）と太さを適用 */
+            border: 3px solid #FF00FF; 
             border-radius: 1rem;
+            /* 枠線にもわずかなグローを追加 */
+            box-shadow: 0 0 10px #FF00FF;
         }
 
-        .font-serif-display {
-            font-family: 'Playfair Display', serif;
+        /* -------------------------------------- */
+        /* ▼ きらりんとかがやくための追加スタイル ▼ */
+        /* -------------------------------------- */
+        
+        /* カード表面の光沢アニメーションを強化（速度UP & 明度UP） */
+        .card__face--front::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -80%;
+            width: 50%;
+            height: 100%;
+            /* 光沢の透明度を上げてより明るく */
+            background: linear-gradient(90deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0.4) 50%, rgba(255, 255, 255, 0) 100%);
+            transform: skewX(-25deg);
+            /* アニメーション速度を速くしてきらめきを強調 */
+            animation: shine 3s infinite;
         }
 
+        .shining-text {
+            /* 白字（white）に変更し、淡いシアンのネオングローで輝きを表現 */
+            color: white; /* 文字色を白に設定 */
+            text-shadow: 0 0 5px #FFFFFF, 0 0 15px #ADD8E6, 0 0 25px rgba(173, 216, 230, 0.7);
+        }
+
+        .neon-tap {
+            /* タップ誘導文字も白字に変更し、淡いシアンのグローを適用 */
+            color: white; /* 文字色を白に設定 */
+            text-shadow: 0 0 5px #FFFFFF, 0 0 10px rgba(173, 216, 230, 0.7);
+            animation: pulse 1.5s infinite alternate;
+        }
 
         @keyframes shine {
             0% { left: -80%; }
             20% { left: 120%; }
             100% { left: 120%; }
         }
+
+        @keyframes pulse {
+            from { opacity: 0.8; }
+            to { opacity: 1; }
+        }
+        /* -------------------------------------- */
+        /* ▲ きらりんとかがやくための追加スタイル ▲ */
+        /* -------------------------------------- */
+
+        .font-serif-display {
+            font-family: 'Playfair Display', serif;
+        }
     </style>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic" crossorigin>
+    <!-- 日本語フォントと、新しいセリフ体フォントを読み込みます -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Noto+Sans+JP:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
 </head>
 
 <body class="bg-gray-800 flex items-center justify-center min-h-screen p-4">
 
+    <!-- カード全体を囲むコンテナ -->
     <div class="scene w-full max-w-2xl aspect-[16/9]">
         <div class="card relative w-full h-full">
+            <!-- カードの表面 -->
+            <!-- 白字が映えるように、背景を元の黒っぽいグラデーションに戻しました -->
             <div class="card__face card__face--front flex flex-col justify-center items-center p-8 bg-gradient-to-br from-slate-900 to-indigo-900/50 text-white shadow-2xl overflow-hidden">
+                <!-- 中央に配置する新しいタイトル -->
                 <div class="text-center z-10">
-                    <h2 class="text-5xl lg:text-6xl font-serif-display tracking-wider text-cyan-400">MIRAICHI Moon Shot</h2>
+                    <!-- 文字は白グローに設定済み -->
+                    <h2 class="text-7xl lg:text-8xl font-serif-display tracking-widest font-bold shining-text">minaco</h2>
                 </div>
 
+                <!-- 下部に配置する案内文 (タップ誘導) -->
                 <div class="absolute bottom-6 left-0 right-0 text-center z-10">
-                    <p class="text-lg font-bold tracking-[0.2em]">TAP TO REVEAL</p>
-                    <p class="text-xs text-gray-400 mt-1">クリックしてプロフィールを見る</p>
+                    <p class="text-lg font-bold tracking-[0.2em] neon-tap">TAP!</p>
                 </div>
             </div>
 
+            <!-- カードの裏面（プロフィール情報） - 変更なし -->
             <div class="card__face card__face--back bg-gradient-to-br from-gray-800 to-slate-900 text-white p-8 shadow-2xl">
                 <div class="flex h-full gap-8">
+                    <!-- 左側: 画像とSNS -->
                     <div class="w-1/3 flex flex-col items-center justify-center border-r border-gray-600/50 pr-8">
                         <img src="minacoアイコン.png" alt="プロフィール画像" class="w-32 h-32 rounded-full object-cover ring-4 ring-cyan-400/50 shadow-lg">
                         
+                        <!-- ▼ SNSリンク ▼ -->
                         <div class="mt-6 text-center">
                             <p class="text-gray-400 text-sm mb-2">CONTACT</p>
                             <a href="https://x.com/USJ_minaco" target="_blank" class="inline-block bg-cyan-500 text-white font-bold py-2 px-6 rounded-lg hover:bg-cyan-600 transition-all duration-300 shadow-md">
                                 Follow Me
                             </a>
                         </div>
-                        </div>
+                        <!-- ▲ SNSリンク ▲ -->
+                    </div>
+                    <!-- 右側: 詳細情報 -->
                     <div class="w-2/3 flex flex-col justify-center">
                         <h1 class="text-4xl font-bold">minaco</h1>
                         <div class="mt-6 space-y-4">
